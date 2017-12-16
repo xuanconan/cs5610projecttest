@@ -46,7 +46,7 @@ export class AdminComponent implements OnInit {
   deleteUser(userId) {
     this.userService.deleteUser(userId).subscribe((status) => {
       console.log(status);
-      alert('User ' + this.user.username + ' deleted!');
+      alert('User deleted!');
       window.location.reload(false); // reload page
     });
   }

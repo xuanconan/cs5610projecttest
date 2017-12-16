@@ -952,10 +952,9 @@ var AdminComponent = (function () {
         this.class = this.user.class;
     };
     AdminComponent.prototype.deleteUser = function (userId) {
-        var _this = this;
         this.userService.deleteUser(userId).subscribe(function (status) {
             console.log(status);
-            alert('User ' + _this.user.username + ' deleted!');
+            alert('User deleted!');
             window.location.reload(false); // reload page
         });
     };
