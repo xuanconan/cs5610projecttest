@@ -9,13 +9,20 @@ module.exports = function (app) {
   var FacebookStrategy = require('passport-facebook').Strategy;
 
   var facebookConfig = {
-    clientID     : '131117947670689',
-    clientSecret : 'e3944ada59232e0a5a4d60403b8713d3',
+    // clientID     : process.env.FACEBOOK_CLIENT_ID,
+    clientID: '131117947670689',
+    // clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+    clientSecret: 'e3944ada59232e0a5a4d60403b8713d3',
+
     // callbackURL  : 'http://localhost:9000/auth/facebook/callback'
-    callbackURL  : 'https://stocksim-5610.herokuapp.com/auth/facebook/callback'
+    // callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+    callbackURL: 'https://stocksim-5610.herokuapp.com/auth/facebook/callback',
     // callbackURL  : process.env.FACEBOOK_CALLBACK_URL
   };
   var bcrypt = require('bcrypt-nodejs');
+
+  var multer = require('multer');
+  var upload = multer({ dest: __dirname + '/../../dist/assets/uploads'});
 
   // url match the pattern by order, once fit, won't continue
   // app.get("/api/user", findAllUsers);
@@ -45,6 +52,9 @@ module.exports = function (app) {
       failureRedirect: 'https://stocksim-5610.herokuapp.com/login'
     }));
 
+  app.post ('/api/uploadpicture', upload.single('myFile'), uploadImage);
+
+
   // Create a Web service that uses passport.authenticate() to delegate authentication to facebook
   // app.get ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
@@ -58,6 +68,56 @@ module.exports = function (app) {
 
   //Use the facebook configuration to register a middle tier that will handle facebook related requests
   passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+
+
+
+  function uploadImage(req, res) {
+
+    // var widgetId      = req.body.widgetId;
+    // var width         = req.body.width;
+    var myFile        = req.file;
+
+    var userId = req.body.userId;
+    // var websiteId = req.body.websiteId;
+    // var pageId = req.body.pageId;
+
+    // var originalname  = myFile.originalname; // file name on user's computer
+    var filename      = myFile.filename;     // new file name in upload folder
+    var path          = myFile.path;         // full path of uploaded file
+    var destination   = myFile.destination;  // folder where file is saved to
+    var size          = myFile.size;
+    var mimetype      = myFile.mimetype;
+
+    // var callbackUrl = "http://localhost:4200/user/website/"
+    //   + websiteId + '/page/' + pageId + '/widget/' + widgetId ;
+
+    // var callbackUrl = "https://webdev-conan-xuan.herokuapp.com/user/website/"
+    //   + websiteId + '/page/' + pageId + '/widget/' ;
+
+    var callbackUrl = 'http://localhost:4200/profile';
+
+    if(myFile === null) {
+      res.redirect(callbackUrl);
+      return;
+    }
+    var url = '/assets/uploads/' + filename;
+
+    var image = {
+      url: url,
+      name: filename
+      // url: path
+    };
+
+    userModel.updateImage(userId, image).then(function(status){
+        console.log(stats);
+        res.send(200);
+      },
+      function (err) {
+        res.sendStatus(404).send(err);
+      });
+
+    res.redirect(callbackUrl);
+  }
 
   function facebookStrategy(token, refreshToken, profile, done) {
     userModel

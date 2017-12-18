@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
   lastName: String;
   class: String;
   youtubeUrl: SafeResourceUrl;
+  url: String;
   // inject route info in constructor
   constructor(
           private userService: UserService,
@@ -39,6 +40,16 @@ export class ProfileComponent implements OnInit {
     // const aurl = 'https://www.youtube.com/embed/qdA32j7_U6U';
     return this.youtubeUrl = this.sanitizer
       .bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Ga3maNZ0x0w?autoplay=1&cc_load_policy=1&controls=0');
+  }
+
+  updateImageUrl(string) {
+    let newurl = '';
+    if (string.substring(1, 4) === 'ass') {
+      newurl = this.baseUrl + string;
+    } else {
+      newurl = this.baseUrl + '/assets/images/placeholder-user-1-400x400.png';
+    }
+    return newurl;
   }
 
   getUser() {

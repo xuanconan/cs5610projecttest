@@ -15,9 +15,18 @@ UserModel.findUserByUsername = findUserByUsername;
 UserModel.updateUser = updateUser;
 UserModel.deleteUser = deleteUser;
 UserModel.findUserByFacebookId = findUserByFacebookId;
+UserModel.updateImage = updateImage;
+
 
 
 module.exports = UserModel;
+
+function updateImage(userId, image) {
+  delete image._id;
+  return UserModel.update({_id: userId},{
+    $set: image
+  });
+}
 
 function findUserByFacebookId(facebookId) {
   return UserModel.findOne({'facebook.id': facebookId});

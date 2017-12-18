@@ -17,8 +17,7 @@ const passport = require('passport');
 app.use(cookieParser());
 // session make sure the cookie is encrypted
 // app.use(session({ secret: process.env.SESSION_SECRET }));
-app.use(session({ secret: "asdfasdf"}));
-
+app.use(session({ secret: 'asdfasdf'}));
 
 // set up passport after cookie and session
 app.use(passport.initialize());

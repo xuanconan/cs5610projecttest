@@ -21,7 +21,8 @@ var UserSchema = mongoose.Schema ({
   class: String,
   classname: String,
   competition: String,
-  competitionName: String
+  competitionName: String,
+  url: String
 }, {collection: 'user'});
 
 module.exports = UserSchema;

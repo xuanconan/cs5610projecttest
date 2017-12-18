@@ -70,6 +70,19 @@
 
       <div class="col-sm-4  padding40 padding-b">
 
+        <!--<img src="../../../../assets/images/placeholder-user-1-400x400.png" height="400" width="400"/>-->
+        <div class="w3-card w3-margin w3-margin-top center">
+          <img [attr.src]= updateImageUrl(user.url) style="width:100%">
+          <div class="w3-container w3-white">
+            <br/>
+
+            <form ngNoForm action="{{baseUrl}}/api/uploadpicture" method="post" enctype="multipart/form-data">
+              <input  name="myFile"   type="file" class="form-control"/>
+              <input  name="userId" value="{{userId}}"   style="display: none"/>
+              <button type="submit" class="btn btn-primary btn-block ">Upload Image</button>
+              <br/>
+            </form>
+
         <!--<label class = 'blue'>Welcome to StockSim, {{user.firstName}} !</label>-->
 
         <b class ='letter-tiffany '>Welcome to StockSim, &nbsp;{{user.firstName}}!&nbsp; Role: {{user.role}}</b>
