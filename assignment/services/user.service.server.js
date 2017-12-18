@@ -91,10 +91,10 @@ module.exports = function (app) {
     // var callbackUrl = "http://localhost:4200/user/website/"
     //   + websiteId + '/page/' + pageId + '/widget/' + widgetId ;
 
-    // var callbackUrl = "https://webdev-conan-xuan.herokuapp.com/user/website/"
+    var callbackUrl = "https://cs5610stocksim.herokuapp.com/profile"
     //   + websiteId + '/page/' + pageId + '/widget/' ;
 
-    var callbackUrl = 'http://localhost:4200/profile';
+    // var callbackUrl = 'http://localhost:4200/profile';
 
     if(myFile === null) {
       res.redirect(callbackUrl);
